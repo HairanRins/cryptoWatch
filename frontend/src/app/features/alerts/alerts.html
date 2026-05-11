@@ -1,0 +1,365 @@
+<div class="flex h-screen bg-surface text-on-surface font-sans overflow-hidden">
+  <!-- Sidebar -->
+  <aside class="hidden md:flex flex-col w-[240px] border-r border-outline-variant bg-surface-container-lowest flex-shrink-0">
+    <div class="p-6 pb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-inverse-primary flex items-center justify-center shadow-lg shadow-primary/20">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-[15px] font-semibold text-on-surface tracking-tight leading-tight">CryptoWatch</h1>
+          <span class="text-[10px] text-outline leading-tight">Terminal v1.0</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 px-3 pt-2 space-y-0.5">
+      @for (item of navItems; track item.label) {
+        <a [routerLink]="item.route"
+           class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all cursor-pointer"
+           [class.bg-surface-container-high]="item.active"
+           [class.text-primary]="item.active"
+           [class.text-on-surface-variant]="!item.active"
+           [class.hover:bg-surface-container]="!item.active">
+          @switch (item.label) {
+            @case ('Dashboard') {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            }
+            @case ('Markets') {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            }
+            @case ('Portfolio') {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            }
+            @case ('Alerts') {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            }
+          }
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="px-3 pb-6 pt-2 space-y-0.5">
+      <div class="mx-3 mb-3 h-px bg-outline-variant/50"></div>
+      @for (item of bottomNavItems; track item.label) {
+        <a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[13px] font-medium text-on-surface-variant transition-all hover:bg-surface-container cursor-pointer">
+          @switch (item.label) {
+            @case ('Support') {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            }
+            @case ('Logout') {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+            }
+          }
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col bg-surface overflow-hidden min-w-0">
+    <!-- Top Bar -->
+    <header class="h-14 flex items-center justify-between px-5 border-b border-outline-variant flex-shrink-0">
+      <div class="flex items-center gap-4">
+        <span class="flex md:hidden text-[15px] font-semibold text-primary">CW</span>
+        <div class="relative w-72">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+          <input type="text" [(ngModel)]="searchQuery" placeholder="Search markets, assets, alerts..."
+                 class="w-full h-9 pl-10 pr-4 rounded-md text-[13px] bg-surface-container-lowest border border-outline-variant text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/20 transition-all" />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 pr-3 border-r border-outline-variant/30">
+          <div class="flex flex-col items-end">
+            <span class="text-secondary font-mono text-[11px] leading-tight">BTC/USD</span>
+            <span class="text-on-surface font-mono text-[13px]">$64,281.40</span>
+          </div>
+          <span class="material-symbols-outlined text-secondary text-sm">arrow_upward</span>
+        </div>
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors relative">
+          <span class="material-symbols-outlined text-lg">notifications</span>
+          <span class="absolute top-2 right-2.5 w-2 h-2 bg-tertiary rounded-full"></span>
+        </button>
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+          <span class="material-symbols-outlined text-lg">settings</span>
+        </button>
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+          <div class="w-full h-full bg-primary-container flex items-center justify-center text-on-primary-container text-xs font-bold">U</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Alerts Content -->
+    <div class="flex-1 overflow-y-auto p-5 space-y-5">
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 class="text-xl font-semibold text-on-surface">System Alerts & Notifications</h2>
+          <p class="text-[13px] text-on-surface-variant mt-0.5">Manage price thresholds, execution triggers, and communication preferences.</p>
+        </div>
+        <button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary text-[12px] font-semibold rounded-lg hover:opacity-90 active:scale-[0.98] transition-all shadow-lg shadow-primary/20">
+          <span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL' 1">add</span>
+          CREATE NEW ALERT
+        </button>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Left: Configure Alert -->
+        <section class="lg:col-span-4 flex flex-col gap-5">
+          <!-- Create Alert Card -->
+          <div class="glass-panel p-5 rounded-lg flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-outline-variant/30 pb-3 mb-1">
+              <h3 class="text-[15px] font-medium text-primary">Configure Alert</h3>
+              <span class="material-symbols-outlined text-outline">tune</span>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5">Select Asset</label>
+              <div class="relative">
+                <select [(ngModel)]="createAlert.asset"
+                        class="w-full h-9 rounded-md text-[13px] bg-surface-container-lowest border border-outline-variant text-on-surface px-3 appearance-none focus:outline-none focus:border-primary/60 cursor-pointer">
+                  <option>Bitcoin (BTC)</option>
+                  <option>Ethereum (ETH)</option>
+                  <option>Solana (SOL)</option>
+                  <option>Cardano (ADA)</option>
+                </select>
+                <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">expand_more</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5">Trigger Condition</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button (click)="createAlert.condition = 'above'"
+                        class="flex items-center justify-center gap-1 py-2 px-3 rounded-md text-[12px] font-semibold transition-all"
+                        [class.bg-primary/20]="createAlert.condition === 'above'"
+                        [class.border]="createAlert.condition === 'above'"
+                        [class.border-primary/50]="createAlert.condition === 'above'"
+                        [class.text-primary]="createAlert.condition === 'above'"
+                        [class.bg-surface-container-lowest]="createAlert.condition !== 'above'"
+                        [class.border]="createAlert.condition !== 'above'"
+                        [class.border-outline-variant/30]="createAlert.condition !== 'above'"
+                        [class.text-on-surface-variant]="createAlert.condition !== 'above'">
+                  <span class="material-symbols-outlined text-lg">trending_up</span>
+                  Price Above
+                </button>
+                <button (click)="createAlert.condition = 'below'"
+                        class="flex items-center justify-center gap-1 py-2 px-3 rounded-md text-[12px] font-semibold transition-all"
+                        [class.bg-primary/20]="createAlert.condition === 'below'"
+                        [class.border]="createAlert.condition === 'below'"
+                        [class.border-primary/50]="createAlert.condition === 'below'"
+                        [class.text-primary]="createAlert.condition === 'below'"
+                        [class.bg-surface-container-lowest]="createAlert.condition !== 'below'"
+                        [class.border]="createAlert.condition !== 'below'"
+                        [class.border-outline-variant/30]="createAlert.condition !== 'below'"
+                        [class.text-on-surface-variant]="createAlert.condition !== 'below'">
+                  <span class="material-symbols-outlined text-lg">trending_down</span>
+                  Price Below
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5">Target Price (USD)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-mono text-[13px]">$</span>
+                <input type="text" [(ngModel)]="createAlert.targetPrice"
+                       class="w-full h-9 rounded-md text-[13px] font-mono bg-surface-container-lowest border border-outline-variant text-on-surface pl-8 pr-3 focus:outline-none focus:border-primary/60" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-semibold text-on-surface-variant uppercase tracking-wider mb-1.5">Delivery Methods</label>
+              <div class="flex flex-wrap gap-2">
+                <label class="flex items-center gap-1.5 bg-surface-container-lowest px-3 py-1.5 rounded-md border border-outline-variant/30 cursor-pointer hover:border-primary/50 transition-all text-[12px]">
+                  <input type="checkbox" [(ngModel)]="createAlert.push"
+                         class="rounded border-outline-variant/30 bg-transparent text-primary focus:ring-primary/30 focus:ring-offset-0" />
+                  <span class="text-on-surface-variant">Push</span>
+                </label>
+                <label class="flex items-center gap-1.5 bg-surface-container-lowest px-3 py-1.5 rounded-md border border-outline-variant/30 cursor-pointer hover:border-primary/50 transition-all text-[12px]">
+                  <input type="checkbox" [(ngModel)]="createAlert.email"
+                         class="rounded border-outline-variant/30 bg-transparent text-primary focus:ring-primary/30 focus:ring-offset-0" />
+                  <span class="text-on-surface-variant">Email</span>
+                </label>
+                <label class="flex items-center gap-1.5 bg-surface-container-lowest px-3 py-1.5 rounded-md border border-outline-variant/30 cursor-pointer hover:border-primary/50 transition-all text-[12px]">
+                  <input type="checkbox" [(ngModel)]="createAlert.sms"
+                         class="rounded border-outline-variant/30 bg-transparent text-primary focus:ring-primary/30 focus:ring-offset-0" />
+                  <span class="text-on-surface-variant">SMS</span>
+                </label>
+              </div>
+            </div>
+
+            <button class="w-full py-2.5 bg-primary-container text-on-primary-container text-[11px] font-semibold rounded-lg hover:opacity-90 active:scale-[0.98] transition-all">
+              CONFIRM ALERT SETTINGS
+            </button>
+          </div>
+
+          <!-- Global Notification Settings -->
+          <div class="glass-panel p-5 rounded-lg flex flex-col gap-4">
+            <h3 class="text-[10px] font-semibold text-on-surface-variant uppercase tracking-widest">Global Notification Settings</h3>
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between p-2.5 rounded-md bg-surface-container-lowest">
+                <span class="text-[13px] text-on-surface">System Health Alerts</span>
+                <div (click)="globalSettings.systemHealth = !globalSettings.systemHealth"
+                     class="w-10 h-5 rounded-full relative cursor-pointer transition-colors"
+                     [class.bg-secondary]="globalSettings.systemHealth"
+                     [class.bg-outline-variant]="!globalSettings.systemHealth">
+                  <div class="absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all"
+                       [class.right-0.5]="globalSettings.systemHealth"
+                       [class.left-0.5]="!globalSettings.systemHealth"></div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-md bg-surface-container-lowest">
+                <span class="text-[13px] text-on-surface">Weekly Summary</span>
+                <div (click)="globalSettings.weeklySummary = !globalSettings.weeklySummary"
+                     class="w-10 h-5 rounded-full relative cursor-pointer transition-colors"
+                     [class.bg-secondary]="globalSettings.weeklySummary"
+                     [class.bg-outline-variant]="!globalSettings.weeklySummary">
+                  <div class="absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all"
+                       [class.right-0.5]="globalSettings.weeklySummary"
+                       [class.left-0.5]="!globalSettings.weeklySummary"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: Active Alerts + Logs -->
+        <section class="lg:col-span-8 flex flex-col gap-5">
+          <!-- Active Alerts -->
+          <div class="glass-panel rounded-lg overflow-hidden">
+            <div class="px-5 py-4 border-b border-outline-variant/30 flex justify-between items-center">
+              <h3 class="text-[15px] font-medium text-primary">Active Price Monitoring</h3>
+              <div class="flex items-center gap-3">
+                <span class="text-[10px] font-semibold text-on-surface-variant uppercase tracking-wider">{{ activeAlerts.length }} ACTIVE</span>
+                <button class="text-on-surface-variant hover:text-primary transition-colors">
+                  <span class="material-symbols-outlined text-lg">filter_list</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-col divide-y divide-outline-variant/20">
+              @for (alert of activeAlerts; track alert.asset + alert.created) {
+                <div class="flex items-center justify-between px-5 py-4 hover:bg-white/[0.02] transition-colors group"
+                     [class.opacity-60]="!alert.enabled">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold border"
+                         [style.background-color]="alert.assetColor + '10'"
+                         [style.border-color]="alert.assetColor + '30'"
+                         [style.color]="alert.assetColor">
+                      {{ alert.asset }}
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-[14px] font-semibold text-on-surface">{{ alert.assetName }} {{ alert.condition === 'Above' ? 'Above' : 'Below' }} ${{ alert.price }}</span>
+                        @for (ch of alert.channels; track ch) {
+                          <span class="bg-secondary/10 text-secondary px-1.5 py-0.5 rounded text-[9px] font-bold uppercase">{{ ch }}</span>
+                        }
+                      </div>
+                      <div class="text-[12px] text-on-surface-variant mt-0.5">
+                        Created {{ alert.created }} &bull; {{ alert.recurring ? 'Recurring' : 'One-time' }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <div class="text-right">
+                      <div class="text-[12px] text-on-surface-variant">{{ alert.enabled ? 'Last checked' : 'Paused' }}</div>
+                      <div class="text-[12px] text-on-surface-variant font-mono">{{ alert.enabled ? alert.lastChecked : alert.pausedDate }}</div>
+                    </div>
+                    <div (click)="alert.enabled = !alert.enabled"
+                         class="w-11 h-6 rounded-full relative cursor-pointer transition-colors flex-shrink-0"
+                         [class.bg-secondary]="alert.enabled"
+                         [class.bg-outline-variant]="!alert.enabled">
+                      <div class="absolute top-1 w-4 h-4 bg-white rounded-full transition-all"
+                           [class.right-1]="alert.enabled"
+                           [class.left-1]="!alert.enabled"></div>
+                    </div>
+                    <button class="text-outline hover:text-tertiary opacity-0 group-hover:opacity-100 transition-all">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Triggered Logs -->
+          <div class="glass-panel rounded-lg overflow-hidden flex flex-col">
+            <div class="px-5 py-4 border-b border-outline-variant/30 flex justify-between items-center">
+              <h3 class="text-[15px] font-medium text-primary">Triggered Logs</h3>
+              <button class="text-[11px] font-semibold text-primary hover:underline">CLEAR ALL</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-surface-container-lowest">
+                  <tr class="text-[10px] font-semibold text-on-surface-variant uppercase tracking-wider">
+                    <th class="px-5 py-3">Event</th>
+                    <th class="px-5 py-3">Value</th>
+                    <th class="px-5 py-3">Channel</th>
+                    <th class="px-5 py-3 text-right">Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant/20">
+                  @for (log of triggeredLogs; track log.event + log.timestamp) {
+                    <tr class="hover:bg-white/[0.02] transition-colors">
+                      <td class="px-5 py-4">
+                        <div class="flex items-center gap-2">
+                          <span class="material-symbols-outlined text-lg"
+                                [class.text-secondary]="log.type === 'success'"
+                                [class.text-tertiary]="log.type === 'warning'">
+                            {{ log.type === 'success' ? 'check_circle' : 'warning' }}
+                          </span>
+                          <span class="text-[13px] text-on-surface"
+                                [class.text-tertiary/80]="log.type === 'warning'">{{ log.event }}</span>
+                        </div>
+                      </td>
+                      <td class="px-5 py-4 text-[13px] font-mono text-on-surface"
+                          [class.text-tertiary/80]="log.type === 'warning'">{{ log.value }}</td>
+                      <td class="px-5 py-4">
+                        @if (log.channels) {
+                          <div class="flex gap-1">
+                            @for (ch of log.channels; track ch) {
+                              <span class="material-symbols-outlined text-outline text-lg">{{ ch }}</span>
+                            }
+                          </div>
+                        } @else {
+                          <span class="material-symbols-outlined text-outline text-lg">{{ log.channel }}</span>
+                        }
+                      </td>
+                      <td class="px-5 py-4 text-right text-[12px] font-mono text-on-surface-variant">{{ log.timestamp }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-container border-t border-outline-variant z-50 flex justify-around items-center h-16 px-4">
+  @for (item of navItems; track item.label) {
+    <a [routerLink]="item.route" class="flex flex-col items-center gap-0.5"
+       [class.text-primary]="item.active"
+       [class.text-on-surface-variant]="!item.active">
+      <span class="material-symbols-outlined text-lg">
+        @switch (item.label) {
+          @case ('Dashboard') { dashboard }
+          @case ('Markets') { show_chart }
+          @case ('Portfolio') { account_balance_wallet }
+          @case ('Alerts') { notifications_active }
+        }
+      </span>
+      <span class="text-[10px] font-medium">{{ item.label }}</span>
+    </a>
+  }
+</nav>

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface NavItem {
   label: string;
   active: boolean;
+  route: string;
 }
 
 interface StatCard {
@@ -34,7 +36,7 @@ interface AllocationItem {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
@@ -43,15 +45,15 @@ export class DashboardComponent {
   periods = ['1D', '1W', '1M', 'ALL'];
 
   navItems: NavItem[] = [
-    { label: 'Dashboard', active: true },
-    { label: 'Markets', active: false },
-    { label: 'Portfolio', active: false },
-    { label: 'Alerts', active: false },
+    { label: 'Dashboard', active: true, route: '/dashboard' },
+    { label: 'Markets', active: false, route: '/markets' },
+    { label: 'Portfolio', active: false, route: '/portfolio' },
+    { label: 'Alerts', active: false, route: '/alerts' },
   ];
 
   bottomNavItems: NavItem[] = [
-    { label: 'Support', active: false },
-    { label: 'Logout', active: false },
+    { label: 'Support', active: false, route: '#' },
+    { label: 'Logout', active: false, route: '#' },
   ];
 
   stats: StatCard[] = [
