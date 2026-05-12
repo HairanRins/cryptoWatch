@@ -18,17 +18,18 @@ import java.util.Optional;
 public class CoinService {
     private final CoinRepository coinRepository;
     private final CoinGeckoClient coinGeckoClient;
+    private final CoinWriteService coinWriteService;
     private static final String DEFAULT_CURRENCY = "usd";
 
     public List<CoinDto> getTopCoins() {
         List<CoinDto> coins = coinGeckoClient.getTopCoins(100, DEFAULT_CURRENCY);
-        coins.forEach(this::saveOrUpdateCoin);
+        coins.forEach(coinWriteService::saveOrUpdateCoin);
         return coins;
     }
 
     public Optional<CoinDto> getCoinById(String coinId) {
         return coinGeckoClient.getCoinById(coinId, DEFAULT_CURRENCY)
-            .map(dto -> { saveOrUpdateCoin(dto); return dto; });
+            .map(dto -> { coinWriteService.saveOrUpdateCoin(dto); return dto; });
     }
 
     @Transactional
@@ -41,19 +42,6 @@ public class CoinService {
         coins.stream().filter(c -> prices.containsKey(c.getCoinId()))
             .forEach(coin -> coin.setCurrentPrice(prices.get(coin.getCoinId())));
         coinRepository.saveAll(coins);
-    }
-
-    @Transactional
-    void saveOrUpdateCoin(CoinDto dto) {
-        if (dto.coinId() == null || dto.coinId().isEmpty()) return;
-        Coin coin = coinRepository.findByCoinId(dto.coinId())
-            .orElseGet(() -> { Coin c = new Coin(); c.setCoinId(dto.coinId()); return c; });
-        coin.setName(dto.name()); coin.setSymbol(dto.symbol()); coin.setImageUrl(dto.imageUrl());
-        if (dto.currentPrice() != null) coin.setCurrentPrice(dto.currentPrice());
-        if (dto.marketCap() != null) coin.setMarketCap(dto.marketCap());
-        if (dto.change24h() != null) coin.setChange24h(dto.change24h());
-        if (dto.volume24h() != null) coin.setVolume24h(dto.volume24h());
-        coinRepository.save(coin);
     }
 
     CoinDto mapToDto(Coin coin) {
