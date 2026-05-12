@@ -1,0 +1,292 @@
+<div class="bg-surface text-on-surface font-sans min-h-screen">
+  <!-- Top Navigation Bar -->
+  <header class="bg-surface/70 backdrop-blur-xl border-b border-white/10 shadow-sm sticky top-0 z-40">
+    <div class="flex justify-between items-center w-full px-4 md:px-6 py-3 max-w-[1440px] mx-auto">
+      <div class="flex items-center gap-6">
+        <span class="text-[24px] font-semibold font-headline-sm font-bold text-primary">CryptoWatch</span>
+        <nav class="hidden md:flex gap-4">
+          <a routerLink="/markets" class="text-primary font-bold border-b-2 border-primary pb-0.5 text-[16px] transition-colors">Marché</a>
+          <a routerLink="/portfolio" class="text-on-surface-variant hover:text-on-surface transition-colors px-1 pb-0.5 text-[16px]">Portfolio</a>
+          <a routerLink="/alerts" class="text-on-surface-variant hover:text-on-surface transition-colors px-1 pb-0.5 text-[16px]">Alertes</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-3">
+        <a routerLink="/login" class="text-on-surface-variant hover:text-primary px-3 py-1.5 text-[14px] font-semibold transition-colors">Se connecter</a>
+        <a routerLink="/signup" class="bg-primary text-on-primary font-bold px-4 py-1.5 rounded-lg hover:opacity-90 transition-all text-[14px]">S'inscrire</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative">
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-[819px] flex flex-col items-center justify-center px-4 md:px-8 py-8 text-center relative overflow-hidden">
+      <div class="max-w-4xl z-10">
+        <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full mb-6 text-[12px] font-semibold tracking-widest uppercase">
+          <span class="material-symbols-outlined text-[16px]">bolt</span> VERSION 2.0 MAINTENANT DISPONIBLE
+        </div>
+        <h1 class="text-[48px] md:text-[56px] font-bold leading-tight mb-6 tracking-tight">
+          Le terminal crypto <span class="text-primary">haute performance</span>
+        </h1>
+        <p class="text-on-surface-variant text-[18px] max-w-2xl mx-auto mb-8">
+          Suivez vos actifs en temps réel, gérez vos portefeuilles complexes et recevez des alertes instantanées sur une interface conçue pour la vitesse.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a routerLink="/signup" class="bg-primary text-on-primary font-bold px-8 py-4 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all flex items-center gap-2 text-[16px]">
+            Créer mon portfolio
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+          <a routerLink="/markets" class="glass-panel border-white/10 text-on-surface font-bold px-8 py-4 rounded-xl hover:bg-white/5 active:scale-[0.98] transition-all text-[16px]">
+            Voir le marché
+          </a>
+        </div>
+      </div>
+
+      <!-- Floating Hero Asset -->
+      <div class="mt-8 relative animate-float">
+        <div class="glass-panel p-6 rounded-2xl border-white/20 w-80">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white">
+                <span class="material-symbols-outlined">currency_bitcoin</span>
+              </div>
+              <div class="text-left">
+                <p class="font-bold text-[16px]">Bitcoin</p>
+                <p class="text-on-surface-variant text-[14px] uppercase">BTC</p>
+              </div>
+            </div>
+            <div class="text-secondary font-mono text-right">
+              <p class="font-bold text-[16px]">+4.28%</p>
+            </div>
+          </div>
+          <div class="h-24 w-full bg-white/5 rounded-lg border border-white/10 relative overflow-hidden">
+            <svg class="w-full h-full" viewBox="0 0 100 40">
+              <path class="text-primary" d="M0 35 Q 20 10, 40 25 T 80 5 T 100 15" fill="none" stroke="currentColor" stroke-width="2"></path>
+              <path class="text-primary/20" d="M0 35 Q 20 10, 40 25 T 80 5 T 100 15 V 40 H 0 Z" fill="url(#btcGrad)"></path>
+              <defs>
+                <linearGradient id="btcGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="currentColor" stop-opacity="0.2"></stop>
+                  <stop offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px]"></div>
+      </div>
+    </section>
+
+    <!-- Live Market Section -->
+    <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-12">
+      <div class="flex justify-between items-end mb-6">
+        <div>
+          <h2 class="text-[30px] font-semibold mb-1">Top 10 cryptos en temps réel</h2>
+          <p class="text-on-surface-variant text-[16px]">Données mises à jour toutes les 15 secondes via WebSocket.</p>
+        </div>
+        <a routerLink="/markets" class="text-primary font-bold text-[12px] flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-wider">
+          Voir tout <span class="material-symbols-outlined">chevron_right</span>
+        </a>
+      </div>
+
+      <div class="glass-panel overflow-hidden rounded-xl border border-white/10">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-surface-container-high/50 border-b border-white/5">
+            <tr>
+              <th class="px-6 py-4 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">#</th>
+              <th class="px-6 py-4 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">NOM</th>
+              <th class="px-6 py-4 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">PRIX</th>
+              <th class="px-6 py-4 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">24H CHANGE</th>
+              <th class="px-6 py-4 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider hidden md:table-cell">MARCHÉ</th>
+              <th class="px-6 py-4 text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider text-right">TENDANCE</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5">
+            <tr class="hover:bg-white/5 transition-colors group">
+              <td class="px-6 py-4 font-mono text-on-surface-variant">1</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500 font-bold text-xs">B</div>
+                  <div>
+                    <p class="font-bold text-[16px]">Bitcoin</p>
+                    <p class="text-on-surface-variant text-[14px] uppercase">BTC</p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono">$64,281.40</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-1 text-secondary">
+                  <span class="material-symbols-outlined text-[18px]">arrow_drop_up</span>
+                  <span class="font-mono">+2.45%</span>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-on-surface-variant font-mono hidden md:table-cell">$1.2T</td>
+              <td class="px-6 py-4 text-right">
+                <div class="inline-block w-24 h-8 text-secondary">
+                  <svg class="w-full h-full overflow-visible" viewBox="0 0 100 30">
+                    <path d="M0 25 L 10 20 L 20 22 L 30 15 L 40 18 L 50 10 L 60 12 L 70 5 L 80 8 L 90 2 L 100 5" fill="none" stroke="currentColor" stroke-width="2"></path>
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr class="hover:bg-white/5 transition-colors group">
+              <td class="px-6 py-4 font-mono text-on-surface-variant">2</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-xs">E</div>
+                  <div>
+                    <p class="font-bold text-[16px]">Ethereum</p>
+                    <p class="text-on-surface-variant text-[14px] uppercase">ETH</p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono">$3,450.12</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-1 text-tertiary">
+                  <span class="material-symbols-outlined text-[18px]">arrow_drop_down</span>
+                  <span class="font-mono">-1.12%</span>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-on-surface-variant font-mono hidden md:table-cell">$412B</td>
+              <td class="px-6 py-4 text-right">
+                <div class="inline-block w-24 h-8 text-tertiary">
+                  <svg class="w-full h-full overflow-visible" viewBox="0 0 100 30">
+                    <path d="M0 5 L 20 15 L 40 10 L 60 25 L 80 20 L 100 28" fill="none" stroke="currentColor" stroke-width="2"></path>
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr class="hover:bg-white/5 transition-colors group">
+              <td class="px-6 py-4 font-mono text-on-surface-variant">3</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-4">
+                  <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-500 font-bold text-xs">S</div>
+                  <div>
+                    <p class="font-bold text-[16px]">Solana</p>
+                    <p class="text-on-surface-variant text-[14px] uppercase">SOL</p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 font-mono">$145.89</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-1 text-secondary">
+                  <span class="material-symbols-outlined text-[18px]">arrow_drop_up</span>
+                  <span class="font-mono">+8.92%</span>
+                </div>
+              </td>
+              <td class="px-6 py-4 text-on-surface-variant font-mono hidden md:table-cell">$64B</td>
+              <td class="px-6 py-4 text-right">
+                <div class="inline-block w-24 h-8 text-secondary">
+                  <svg class="w-full h-full overflow-visible" viewBox="0 0 100 30">
+                    <path d="M0 28 L 20 20 L 40 25 L 60 10 L 80 15 L 100 2" fill="none" stroke="currentColor" stroke-width="2"></path>
+                  </svg>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-12">
+      <div class="text-center mb-8">
+        <h2 class="text-[30px] font-semibold mb-1">Une technologie de pointe pour vos actifs</h2>
+        <p class="text-on-surface-variant text-[16px] max-w-xl mx-auto">La puissance d'un terminal Bloomberg, l'agilité de la blockchain.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-panel p-8 rounded-2xl flex flex-col items-start gap-4 group hover:border-primary/50 transition-all duration-500">
+          <div class="bg-primary/10 text-primary p-4 rounded-xl group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-[32px]">notifications_active</span>
+          </div>
+          <div>
+            <h3 class="text-[24px] font-semibold mb-2">Alertes de prix</h3>
+            <p class="text-on-surface-variant text-[16px]">Configurez des notifications push instantanées pour ne jamais manquer un mouvement de marché stratégique.</p>
+          </div>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl flex flex-col items-start gap-4 group hover:border-primary/50 transition-all duration-500">
+          <div class="bg-primary/10 text-primary p-4 rounded-xl group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-[32px]">analytics</span>
+          </div>
+          <div>
+            <h3 class="text-[24px] font-semibold mb-2">Analyses détaillées</h3>
+            <p class="text-on-surface-variant text-[16px]">Visualisez vos performances historiques avec des graphiques avancés et des métriques on-chain exclusives.</p>
+          </div>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl flex flex-col items-start gap-4 group hover:border-primary/50 transition-all duration-500">
+          <div class="bg-primary/10 text-primary p-4 rounded-xl group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-[32px]">security</span>
+          </div>
+          <div>
+            <h3 class="text-[24px] font-semibold mb-2">Sécurité totale</h3>
+            <p class="text-on-surface-variant text-[16px]">Chiffrement de bout en bout et authentification biométrique pour protéger l'accès à vos données financières.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-12 mb-8">
+      <div class="bg-primary/5 rounded-[2rem] border border-primary/20 p-8 md:p-16 text-center relative overflow-hidden">
+        <div class="absolute -top-32 -right-32 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="relative z-10">
+          <h2 class="text-[30px] md:text-[48px] font-bold mb-4 leading-tight">Prenez le contrôle de vos actifs dès aujourd'hui</h2>
+          <p class="text-on-surface-variant text-[18px] max-w-xl mx-auto mb-8">
+            Rejoignez plus de 50 000 traders professionnels qui utilisent CryptoWatch pour optimiser leur trading et sécuriser leurs investissements.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a routerLink="/signup" class="bg-primary text-on-primary font-bold px-8 py-4 rounded-xl hover:opacity-90 transition-all text-[16px] w-full sm:w-auto text-center">
+              Commencer gratuitement
+            </a>
+            <a href="#" class="text-on-surface font-bold px-8 py-4 rounded-xl border border-white/10 hover:bg-white/5 transition-all text-[16px] w-full sm:w-auto text-center">
+              Contactez le support
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-surface-container-lowest border-t border-white/5 px-4 md:px-8 py-8">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <span class="text-[24px] font-semibold font-bold text-primary block mb-4">CryptoWatch</span>
+        <p class="text-on-surface-variant text-[14px]">La plateforme d'analyse crypto la plus rapide du marché. Conçue par des traders, pour des traders.</p>
+      </div>
+      <div>
+        <h4 class="text-[12px] font-semibold text-on-surface uppercase mb-4 tracking-wider">Produit</h4>
+        <ul class="space-y-2 text-on-surface-variant text-[14px]">
+          <li><a routerLink="/markets" class="hover:text-primary transition-colors">Marchés</a></li>
+          <li><a routerLink="/portfolio" class="hover:text-primary transition-colors">Portfolio</a></li>
+          <li><a routerLink="/alerts" class="hover:text-primary transition-colors">Alertes</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">API Développeur</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[12px] font-semibold text-on-surface uppercase mb-4 tracking-wider">Entreprise</h4>
+        <ul class="space-y-2 text-on-surface-variant text-[14px]">
+          <li><a href="#" class="hover:text-primary transition-colors">À propos</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Blog</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Carrières</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Presse</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[12px] font-semibold text-on-surface uppercase mb-4 tracking-wider">Légal</h4>
+        <ul class="space-y-2 text-on-surface-variant text-[14px]">
+          <li><a href="#" class="hover:text-primary transition-colors">Confidentialité</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Conditions</a></li>
+          <li><a href="#" class="hover:text-primary transition-colors">Sécurité</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-[1440px] mx-auto border-t border-white/5 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-on-surface-variant text-[14px]">© 2024 CryptoWatch. Tous droits réservés.</p>
+      <div class="flex gap-4">
+        <a href="#" class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">public</span></a>
+        <a href="#" class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">share</span></a>
+        <a href="#" class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">mail</span></a>
+      </div>
+    </div>
+  </footer>
+</div>

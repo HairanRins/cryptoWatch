@@ -45,8 +45,9 @@ build/
 
 # Environment variables
 .env
-application-local.properties
-application-dev.properties
+src/main/resources/application-prod.properties
+src/main/resources/application-local.properties
+src/main/resources/application-dev.properties
 
 # Maven wrapper (if downloaded manually)
 mvnw

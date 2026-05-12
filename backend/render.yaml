@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: cryptowatch-backend
+    env: java
+    region: frankfurt
+    plan: free
+    healthCheckPath: /api/coins
+    buildCommand: ./mvnw clean package -DskipTests -q
+    startCommand: java -jar target/cryptowatch-backend-1.0.0.jar --spring.profiles.active=prod
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATASOURCE_URL
+        fromDatabase:
+          type: postgresql
+          name: cryptowatch-db
+          property: jdbcUrl
+      - key: DATASOURCE_USERNAME
+        fromDatabase:
+          type: postgresql
+          name: cryptowatch-db
+          property: user
+      - key: DATASOURCE_PASSWORD
+        fromDatabase:
+          type: postgresql
+          name: cryptowatch-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: https://ton-frontend.com
+      - key: COINGECKO_API_BASE_URL
+        value: https://api.coingecko.com/api/v3
+
+databases:
+  - name: cryptowatch-db
+    plan: free
+    region: frankfurt
+    databaseName: cryptowatch
+    ipAllowList: []

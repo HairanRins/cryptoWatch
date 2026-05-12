@@ -2,8 +2,10 @@ package com.cryptowatch.config;
 
 import com.cryptowatch.entity.Coin;
 import com.cryptowatch.entity.Portfolio;
+import com.cryptowatch.entity.User;
 import com.cryptowatch.repository.CoinRepository;
 import com.cryptowatch.repository.PortfolioRepository;
+import com.cryptowatch.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Slf4j
 @Configuration
@@ -18,6 +21,7 @@ import java.math.BigDecimal;
 public class DataInitializer {
     private final CoinRepository coinRepository;
     private final PortfolioRepository portfolioRepository;
+    private final UserRepository userRepository;
 
     @Bean
     @Profile("!prod")
@@ -35,8 +39,19 @@ public class DataInitializer {
                 createCoin("polygon-pos", "Polygon", "MATIC", "https://assets.coingecko.com/coins/images/4713/large/matic-token-icon.png", new BigDecimal("0.72"));
                 log.info("✅ {} coins initialized", coinRepository.count());
             }
+            if (userRepository.count() == 0) {
+                User demoUser = User.builder()
+                    .id(UUID.randomUUID())
+                    .email("demo@cryptowatch.app")
+                    .name("Demo")
+                    .password("")
+                    .build();
+                userRepository.save(demoUser);
+                log.info("✅ Demo user created");
+            }
             if (portfolioRepository.count() == 0) {
-                portfolioRepository.save(Portfolio.builder().name("Mon Portfolio Demo").build());
+                User demoUser = userRepository.findAll().getFirst();
+                portfolioRepository.save(Portfolio.builder().name("Mon Portfolio Demo").userId(demoUser.getId()).build());
                 log.info("✅ Demo portfolio created");
             }
         };
