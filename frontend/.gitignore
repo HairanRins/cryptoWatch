@@ -45,6 +45,8 @@ __screenshots__/
 .env.development.local
 .env.test.local
 .env.production.local
+src/environments/environment.prod.ts
+
 
 # System files
 .DS_Store
