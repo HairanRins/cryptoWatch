@@ -2,7 +2,6 @@ services:
   - type: web
     name: cryptowatch-backend
     env: docker
-    rootDir: backend
     region: frankfurt
     plan: free
     healthCheckPath: /api/coins
