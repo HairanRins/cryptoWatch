@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CoinService } from '../../core/services/coin.service';
 
 interface MarketPair {
   pair: string;
@@ -30,8 +31,33 @@ interface Gainer {
   templateUrl: './markets.html',
   styleUrl: './markets.css',
 })
-export class MarketsComponent {
+export class MarketsComponent implements OnInit {
+  private readonly coinService = inject(CoinService);
+
+  isLoading = false;
+  error: string | null = null;
   searchQuery = '';
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.isLoading = true;
+    this.error = null;
+
+    this.coinService.getCoins().subscribe({
+      next: () => this.isLoading = false,
+      error: () => {
+        this.error = 'Failed to load market data.';
+        this.isLoading = false;
+      },
+    });
+  }
+
+  retry(): void {
+    this.loadData();
+  }
 
   navItems = [
     { label: 'Dashboard', active: false, route: '/' },

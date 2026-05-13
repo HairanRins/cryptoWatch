@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CoinService } from '../../core/services/coin.service';
+import { PortfolioService } from '../../core/services/portfolio.service';
 
 interface NavItem {
   label: string;
@@ -40,7 +42,13 @@ interface AllocationItem {
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  private readonly coinService = inject(CoinService);
+  private readonly portfolioService = inject(PortfolioService);
+
+  isLoading = false;
+  error: string | null = null;
+
   activePeriod = '1W';
   periods = ['1D', '1W', '1M', 'ALL'];
 
@@ -86,6 +94,35 @@ export class DashboardComponent {
       sublabel: '2 pending actions',
     },
   ];
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.isLoading = true;
+    this.error = null;
+
+    this.coinService.getCoins().subscribe({
+      next: (coins) => {
+        if (coins.length > 0) {
+          this.stats = [
+            { ...this.stats[0], value: `$${(coins[0].marketCap || 124592).toLocaleString()}` },
+            ...this.stats.slice(1),
+          ];
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load dashboard data.';
+        this.isLoading = false;
+      },
+    });
+  }
+
+  retry(): void {
+    this.loadData();
+  }
 
   activities: Activity[] = [
     { asset: 'BTC', type: 'BUY', amount: '0.42 BTC', status: 'COMPLETED', date: 'Nov 24, 14:20' },

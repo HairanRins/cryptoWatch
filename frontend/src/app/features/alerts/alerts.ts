@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AlertService } from '../../core/services/alert.service';
 
 interface ActiveAlert {
   asset: string;
@@ -33,7 +34,25 @@ interface TriggeredEvent {
   templateUrl: './alerts.html',
   styleUrl: './alerts.css',
 })
-export class AlertsComponent {
+export class AlertsComponent implements OnInit {
+  private readonly alertService = inject(AlertService);
+
+  isLoading = false;
+  error: string | null = null;
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.isLoading = true;
+    this.error = null;
+  }
+
+  retry(): void {
+    this.loadData();
+  }
+
   navItems = [
     { label: 'Dashboard', active: false, route: '/dashboard' },
     { label: 'Markets', active: false, route: '/markets' },

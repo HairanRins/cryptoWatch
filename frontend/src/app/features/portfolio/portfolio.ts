@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { PortfolioService } from '../../core/services/portfolio.service';
 
 interface AssetHolding {
   name: string;
@@ -32,7 +33,33 @@ interface Transaction {
   templateUrl: './portfolio.html',
   styleUrl: './portfolio.css',
 })
-export class PortfolioComponent {
+export class PortfolioComponent implements OnInit {
+  private readonly portfolioService = inject(PortfolioService);
+
+  isLoading = false;
+  error: string | null = null;
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.isLoading = true;
+    this.error = null;
+
+    this.portfolioService.getPortfolios().subscribe({
+      next: () => this.isLoading = false,
+      error: () => {
+        this.error = 'Failed to load portfolio data.';
+        this.isLoading = false;
+      },
+    });
+  }
+
+  retry(): void {
+    this.loadData();
+  }
+
   navItems = [
     { label: 'Dashboard', active: false, route: '/dashboard' },
     { label: 'Markets', active: false, route: '/markets' },
