@@ -28,4 +28,9 @@ public class CoinWriteService {
         if (dto.volume24h() != null) coin.setVolume24h(dto.volume24h());
         coinRepository.save(coin);
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW) 
+    public void saveOrUpdateCoin(Coin coin) {
+        coinRepository.save(coin);
+    }
 }
